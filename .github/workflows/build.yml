@@ -19,10 +19,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -54,7 +54,7 @@ jobs:
             -DestinationPath MMUPy-Windows.zip
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MMUPy-Windows
           path: MMUPy-Windows.zip
@@ -66,10 +66,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -105,7 +105,7 @@ jobs:
           tar -czf MMUPy-Linux.tar.gz -C dist MMUPy
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MMUPy-Linux
           path: MMUPy-Linux.tar.gz
@@ -117,10 +117,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -148,7 +148,7 @@ jobs:
           zip -r ../MMUPy-macOS.zip MMUPy.app
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MMUPy-macOS
           path: MMUPy-macOS.zip
@@ -166,19 +166,19 @@ jobs:
 
     steps:
       - name: Download Windows
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: MMUPy-Windows
           path: release
 
       - name: Download Linux
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: MMUPy-Linux
           path: release
 
       - name: Download macOS
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: MMUPy-macOS
           path: release
