@@ -1,11 +1,20 @@
 from PySide6.QtWidgets import (
 QGroupBox,
+QPushButton,
 QVBoxLayout,
 QTableWidget,
 QTableWidgetItem,
 QHeaderView,
 QAbstractItemView,
 )
+
+from openpyxl import Workbook
+
+from PySide6.QtWidgets import (
+    QFileDialog,
+    QMessageBox,
+)
+import csv
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QColor
 
@@ -50,6 +59,16 @@ class SimulationTable(QGroupBox):
         self.table.horizontalHeader().setSectionResizeMode(
             QHeaderView.ResizeToContents
         )
+        self.btn_save = QPushButton("💾 Guardar")
+
+        self.btn_save.clicked.connect(
+            self.save_table
+        )
+
+        layout.addWidget(
+            self.btn_save
+        )
+
 
         layout.addWidget(self.table)
 
@@ -362,3 +381,111 @@ class SimulationTable(QGroupBox):
         self.table.setRowCount(0)
 
         self.table.setColumnCount(0)
+    
+    
+    def save_table(self):
+
+        file_path, selected_filter = QFileDialog.getSaveFileName(
+            self,
+            "Guardar tabla",
+            "simulacion",
+            "CSV (*.csv);;Excel (*.xlsx)"
+        )
+
+        if not file_path:
+            return
+
+        try:
+
+            if selected_filter.startswith("CSV"):
+                self._save_csv(file_path)
+
+            elif selected_filter.startswith("Excel"):
+                self._save_excel(file_path)
+
+            QMessageBox.information(
+                self,
+                "Guardado",
+                "La tabla se guardó correctamente."
+            )
+
+        except Exception as e:
+
+            QMessageBox.critical(
+                self,
+                "Error",
+                f"No se pudo guardar la tabla:\n{e}"
+            )
+
+    def _save_csv(self, file_path):
+
+        if not file_path.lower().endswith(".csv"):
+            file_path += ".csv"
+
+        with open(
+            file_path,
+            "w",
+            newline="",
+            encoding="utf-8-sig"
+        ) as file:
+
+            writer = csv.writer(file, delimiter=";")
+
+            for row in range(self.table.rowCount()):
+
+                data = []
+
+                for column in range(self.table.columnCount()):
+
+                    item = self.table.item(row, column)
+
+                    data.append(
+                        item.text()
+                        if item is not None
+                        else ""
+                    )
+
+                writer.writerow(data)
+
+    def _save_excel(self, file_path):
+
+        if not file_path.lower().endswith(".xlsx"):
+            file_path += ".xlsx"
+
+        workbook = Workbook()
+        sheet = workbook.active
+        sheet.title = "Simulación"
+
+        for row in range(self.table.rowCount()):
+
+            for column in range(self.table.columnCount()):
+
+                item = self.table.item(row, column)
+
+                sheet.cell(
+                    row=row + 1,
+                    column=column + 1,
+                    value=item.text()
+                    if item is not None
+                    else ""
+                )
+
+        # Ajustar ancho de columnas
+        for column in sheet.columns:
+
+            max_length = 0
+            column_letter = column[0].column_letter
+
+            for cell in column:
+
+                if cell.value is not None:
+                    max_length = max(
+                        max_length,
+                        len(str(cell.value))
+                    )
+
+            sheet.column_dimensions[
+                column_letter
+            ].width = max_length + 2
+
+        workbook.save(file_path)
