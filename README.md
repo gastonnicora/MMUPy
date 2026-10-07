@@ -55,11 +55,3 @@ Ejecutar:
 ```text
 python main.py
 ```
-
-## Refactorización
-
-La refactorización mantiene la representación visual original de la cola, la tabla de simulación y el historial.
-
-Los cambios se concentran en la organización interna del código, la documentación, el manejo de tipos, la eliminación de argumentos mutables por defecto y la simplificación de operaciones repetidas.
-
-No se modificó la estructura visual de los widgets.
