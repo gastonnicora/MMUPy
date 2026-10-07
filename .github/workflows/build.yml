@@ -1,0 +1,190 @@
+name: Build MMUPy
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+
+  windows:
+    name: Build Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        shell: powershell
+        run: |
+          python -m pip install --upgrade pip
+          pip install PySide6 pyinstaller
+
+      - name: Build executable
+        shell: powershell
+        run: |
+          pyinstaller `
+            --noconfirm `
+            --clean `
+            --windowed `
+            --name MMUPy `
+            --paths . `
+            --collect-all PySide6 `
+            --collect-submodules gui `
+            --collect-submodules core `
+            main.py
+
+      - name: Create ZIP
+        shell: powershell
+        run: |
+          Compress-Archive `
+            -Path dist/MMUPy/* `
+            -DestinationPath MMUPy-Windows.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MMUPy-Windows
+          path: MMUPy-Windows.zip
+
+
+  linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libegl1 \
+            libgl1 \
+            libxkbcommon-x11-0 \
+            libdbus-1-3
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PySide6 pyinstaller
+
+      - name: Build executable
+        run: |
+          pyinstaller \
+            --noconfirm \
+            --clean \
+            --windowed \
+            --name MMUPy \
+            --paths . \
+            --collect-all PySide6 \
+            --collect-submodules gui \
+            --collect-submodules core \
+            main.py
+
+      - name: Create archive
+        run: |
+          tar -czf MMUPy-Linux.tar.gz -C dist MMUPy
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MMUPy-Linux
+          path: MMUPy-Linux.tar.gz
+
+
+  macos:
+    name: Build macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PySide6 pyinstaller
+
+      - name: Build application
+        run: |
+          pyinstaller \
+            --noconfirm \
+            --clean \
+            --windowed \
+            --name MMUPy \
+            --paths . \
+            --collect-all PySide6 \
+            --collect-submodules gui \
+            --collect-submodules core \
+            main.py
+
+      - name: Create ZIP
+        run: |
+          cd dist
+          zip -r ../MMUPy-macOS.zip MMUPy.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MMUPy-macOS
+          path: MMUPy-macOS.zip
+
+
+  release:
+    name: Create GitHub Release
+    needs:
+      - windows
+      - linux
+      - macos
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Windows
+        uses: actions/download-artifact@v4
+        with:
+          name: MMUPy-Windows
+          path: release
+
+      - name: Download Linux
+        uses: actions/download-artifact@v4
+        with:
+          name: MMUPy-Linux
+          path: release
+
+      - name: Download macOS
+        uses: actions/download-artifact@v4
+        with:
+          name: MMUPy-macOS
+          path: release
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          generate_release_notes: true
