@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 import csv
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QColor
 
@@ -28,9 +29,9 @@ class SimulationTable(QGroupBox):
 
         self._build_ui()
 
-    # =============================================================
-    # UI
-    # =============================================================
+                                                                   
+        
+                                                                   
 
     def _build_ui(self):
 
@@ -46,19 +47,20 @@ class SimulationTable(QGroupBox):
             QAbstractItemView.NoSelection
         )
 
-        # Ocultar números de fila de Qt.
+                                        
         self.table.verticalHeader().setVisible(False)
 
-        # Ocultar encabezados superiores de Qt.
-        #
-        # Esto es importante:
-        # QTableWidget agrega sus propios encabezados de columnas
-        # con números 1, 2, 3... si no usamos encabezados propios.
+                                               
+         
+                             
+                                                                 
+                                                                  
         self.table.horizontalHeader().setVisible(False)
 
         self.table.horizontalHeader().setSectionResizeMode(
             QHeaderView.ResizeToContents
         )
+        
         self.btn_save = QPushButton("💾 Guardar")
 
         self.btn_save.clicked.connect(
@@ -68,13 +70,12 @@ class SimulationTable(QGroupBox):
         layout.addWidget(
             self.btn_save
         )
-
-
+        
         layout.addWidget(self.table)
 
-    # =============================================================
-    # UPDATE
-    # =============================================================
+                                                                   
+            
+                                                                   
 
     def update(self, simulator, current_step):
 
@@ -86,35 +87,35 @@ class SimulationTable(QGroupBox):
 
         frame_count = simulator.memory_size
 
-        # ---------------------------------------------------------
-        # COLUMNAS
-        #
-        # Columna 0:
-        #   nombres de filas
-        #
-        # Columnas 1..N:
-        #   referencias
-        #
-        # Ejemplo:
-        #
-        #       | P1 | P2 | P3 | P4
-        # Ref   | 1  | 2  | 3  | 4
-        # Marco0|    |    |    |
-        # Marco1|    |    |    |
-        # PF    |    | X  |    |
-        # ---------------------------------------------------------
+                                                                   
+                  
+         
+                    
+                            
+         
+                        
+                       
+         
+                  
+         
+                                   
+                                  
+                                
+                                
+                                
+                                                                   
 
         column_count = len(steps) + 1
 
-        # ---------------------------------------------------------
-        # FILAS
-        #
-        # 1 -> Referencia
-        # N -> Marcos
-        # 1 -> PF
-        #
-        # NO existe una fila para 1 2 3 4...
-        # ---------------------------------------------------------
+                                                                   
+               
+         
+                         
+                     
+                 
+         
+                                            
+                                                                   
 
         row_count = frame_count + 2
 
@@ -130,15 +131,15 @@ class SimulationTable(QGroupBox):
 
         self.table.resizeColumnsToContents()
 
-    # =============================================================
-    # ROW LABELS
-    # =============================================================
+                                                                   
+                
+                                                                   
 
     def _build_row_labels(self, frame_count):
 
-        # ---------------------------------------------------------
-        # Columna izquierda
-        # ---------------------------------------------------------
+                                                                   
+                           
+                                                                   
 
         self._set_item(
             row=0,
@@ -163,9 +164,9 @@ class SimulationTable(QGroupBox):
             bold=True
         )
 
-    # =============================================================
-    # REFERENCES
-    # =============================================================
+                                                                   
+                
+                                                                   
 
     def _fill_references(self, steps):
 
@@ -199,9 +200,9 @@ class SimulationTable(QGroupBox):
                 item
             )
 
-    # =============================================================
-    # FRAMES
-    # =============================================================
+                                                                   
+            
+                                                                   
 
     def _fill_frames(
         self,
@@ -241,9 +242,9 @@ class SimulationTable(QGroupBox):
 
                 self._center(item)
 
-                # -------------------------------------------------
-                # Marco reservado
-                # -------------------------------------------------
+                                                                   
+                                 
+                                                                   
 
                 if reserved:
 
@@ -251,7 +252,7 @@ class SimulationTable(QGroupBox):
                         self.FRAME_RESERVED_BACKGROUND
                     )
 
-                    # Negro para que se vea sobre amarillo.
+                                                           
                     item.setForeground(
                         QColor("#000000")
                     )
@@ -280,9 +281,9 @@ class SimulationTable(QGroupBox):
                     item
                 )
 
-    # =============================================================
-    # PAGE FAULTS
-    # =============================================================
+                                                                   
+                 
+                                                                   
 
     def _fill_page_faults(self, steps):
 
@@ -328,9 +329,9 @@ class SimulationTable(QGroupBox):
                 column,
                 item
             )
-    # =============================================================
-    # HELPERS
-    # =============================================================
+                                                                   
+             
+                                                                   
 
     def _set_item(
         self,
@@ -370,9 +371,9 @@ class SimulationTable(QGroupBox):
 
         self.table.clearContents()
 
-    # =============================================================
-    # CLEAR
-    # =============================================================
+                                                                   
+           
+                                                                   
 
     def clear(self):
 
@@ -381,6 +382,7 @@ class SimulationTable(QGroupBox):
         self.table.setRowCount(0)
 
         self.table.setColumnCount(0)
+        
     
     
     def save_table(self):

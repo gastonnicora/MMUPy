@@ -19,9 +19,9 @@ class HistoryTable(QGroupBox):
         self._build_ui()
         self._connect_signals()
 
-    # ─────────────────────────────────────────────────────────────
-    # UI
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+        
+                                                                   
 
     def _build_ui(self):
         layout = QVBoxLayout(self)
@@ -61,9 +61,9 @@ class HistoryTable(QGroupBox):
 
         layout.addWidget(self.table)
 
-    # ─────────────────────────────────────────────────────────────
-    # SIGNALS
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+             
+                                                                   
 
     def _connect_signals(self):
         self.table.currentCellChanged.connect(
@@ -76,9 +76,9 @@ class HistoryTable(QGroupBox):
 
         self.step_selected.emit(row)
 
-    # ─────────────────────────────────────────────────────────────
-    # SIMULATOR
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+               
+                                                                   
 
     def set_simulator(self, simulator):
         """
@@ -129,9 +129,9 @@ class HistoryTable(QGroupBox):
 
         self.table.resizeRowsToContents()
 
-    # ─────────────────────────────────────────────────────────────
-    # PAGE FAULT
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+                
+                                                                   
 
     def _mark_page_fault(self, row):
         for column in range(
@@ -147,9 +147,9 @@ class HistoryTable(QGroupBox):
                     QColor("#d32f2f")
                 )
 
-    # ─────────────────────────────────────────────────────────────
-    # SELECTION
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+               
+                                                                   
 
     def select_step(self, step):
         """
@@ -172,17 +172,17 @@ class HistoryTable(QGroupBox):
 
         self.table.blockSignals(False)
 
-    # ─────────────────────────────────────────────────────────────
-    # CLEAR
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+           
+                                                                   
 
     def clear(self):
         self.table.clearContents()
         self.table.setRowCount(0)
 
-    # ─────────────────────────────────────────────────────────────
-    # PROPERTIES
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+                
+                                                                   
 
     @property
     def current_step(self):

@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QApplication
 from gui.simulator_window import SimulatorWindow
 
 
-# ─── Main ────────────────────────────────────────────────────────────────
+                                                                        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = SimulatorWindow()

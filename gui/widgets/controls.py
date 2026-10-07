@@ -35,7 +35,7 @@ class ControlsWidget(QGroupBox):
     def _build_ui(self):
         grid = QGridLayout(self)
 
-        # Algoritmo
+                   
         grid.addWidget(QLabel("Algoritmo:"), 0, 0)
 
         self.combo_algo = QComboBox()
@@ -49,7 +49,7 @@ class ControlsWidget(QGroupBox):
 
         grid.addWidget(self.combo_algo, 0, 1)
 
-        # Marcos
+                
         grid.addWidget(QLabel("Marcos físicos:"), 0, 2)
 
         self.spin_frames = QSpinBox()
@@ -58,7 +58,7 @@ class ControlsWidget(QGroupBox):
 
         grid.addWidget(self.spin_frames, 0, 3)
 
-        # Referencias
+                     
         grid.addWidget(QLabel("Referencias:"), 1, 0)
 
         self.input_refs = QLineEdit()
@@ -75,7 +75,7 @@ class ControlsWidget(QGroupBox):
             1, 1, 1, 3
         )
 
-        # Velocidad
+                   
         grid.addWidget(QLabel("Velocidad:"), 2, 0)
 
         self.slider_speed = QSlider(Qt.Horizontal)
@@ -91,7 +91,7 @@ class ControlsWidget(QGroupBox):
         self.label_speed = QLabel("0.1 s")
         grid.addWidget(self.label_speed, 2, 3)
 
-        # Botones
+                 
         buttons = QHBoxLayout()
 
         self.btn_play = QPushButton("▶ Iniciar")
@@ -154,7 +154,7 @@ class ControlsWidget(QGroupBox):
             self._update_speed_label
         )
 
-    # ─────────────────────────────────────────────────────────────
+                                                                   
 
     @property
     def frame_count(self):

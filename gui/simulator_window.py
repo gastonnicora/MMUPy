@@ -31,9 +31,9 @@ class SimulatorWindow(QMainWindow):
         self._connect_signals()
         self._update_display()
 
-    # ─────────────────────────────────────────────────────────────
-    # UI
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+        
+                                                                   
 
     def _build_ui(self):
 
@@ -55,13 +55,13 @@ class SimulatorWindow(QMainWindow):
         splitter.addWidget(self.simulation_table)
         splitter.addWidget(self.history_table)
 
-        # Alturas iniciales:
-        #
-        # Controles
-        # Cola
-        # Simulación
-        # Historial
-        #
+                            
+         
+                   
+              
+                    
+                   
+         
         splitter.setSizes([
             120,
             70,
@@ -73,9 +73,9 @@ class SimulatorWindow(QMainWindow):
 
         self.main_splitter = splitter
 
-    # ─────────────────────────────────────────────────────────────
-    # SIGNALS
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+             
+                                                                   
 
     def _connect_signals(self):
 
@@ -115,9 +115,9 @@ class SimulatorWindow(QMainWindow):
             self._on_table_click
         )
 
-    # ─────────────────────────────────────────────────────────────
-    # SIMULADOR
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+               
+                                                                   
 
     def _create_simulator(self):
 
@@ -160,9 +160,9 @@ class SimulatorWindow(QMainWindow):
         ):
             self._create_simulator()
 
-    # ─────────────────────────────────────────────────────────────
-    # CONTROLES
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+               
+                                                                   
 
     def _on_play(self):
 
@@ -236,9 +236,9 @@ class SimulatorWindow(QMainWindow):
         else:
             self._on_pause()
 
-    # ─────────────────────────────────────────────────────────────
-    # EVENTOS
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+             
+                                                                   
 
     def _on_frames_changed(self, _):
 
@@ -263,9 +263,9 @@ class SimulatorWindow(QMainWindow):
             self.current_step = row
             self._update_display()
 
-    # ─────────────────────────────────────────────────────────────
-    # RENDER
-    # ─────────────────────────────────────────────────────────────
+                                                                   
+            
+                                                                   
 
     def _update_display(self):
 
